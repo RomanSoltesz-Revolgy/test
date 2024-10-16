@@ -17,8 +17,10 @@ phases:
   build:
     commands:
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
+      - "echo Contents of CODEBUILD_SRC_DIR"
+      - "ls -R ${CODEBUILD_SRC_DIR}"      
       - "echo ## TERRAFORM APPLY : Starting with the Terraform Apply"
-      - "terraform apply -input=false tfapply"
+      - "terraform apply -input=false ${CODEBUILD_SRC_DIR}/TerraformPlan/tfapply"
 
 artifacts:
   files:
