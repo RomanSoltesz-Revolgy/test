@@ -15,13 +15,14 @@ phases:
       - "mv terraform /bin"
       - "rm terraform.zip"
   build:
-    commands:
-      - "echo Extracting Terraform plan file..."
-      - "unzip -o ${CODEBUILD_SRC_DIR}/TFPlan/* -d ${CODEBUILD_SRC_DIR}/TFPlan/"    
-      - "echo Contents of CODEBUILD_SRC_DIR"
-      - "ls -R ${CODEBUILD_SRC_DIR}"      
-      - "echo ## TERRAFORM APPLY : Starting with the Terraform Apply"
-      - "terraform apply -input=false ${CODEBUILD_SRC_DIR}/TFPlan/tfapply"
+    commands: 
+      - "echo ## Displaying the TFPlan folder structure"
+      - "ls -R ${CODEBUILD_SRC_DIR}/TFPlan" # This will show the folder with the random hash
+      - "TFPLAN_DIR=$(find ${CODEBUILD_SRC_DIR}/TFPlan -type f -name 'tfapply' | xargs dirname)" # Find the directory containing 'tfapply'
+      - "echo Contents of TFPLAN_DIR"
+      - "ls -R ${TFPLAN_DIR}"      
+      - "echo ## Applying Terraform plan from $TFPLAN_DIR"
+      - "terraform apply -input=false $TFPLAN_DIR/tfapply" # Use the correct path dynamically
 
 artifacts:
   files:
