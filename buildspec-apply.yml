@@ -16,13 +16,11 @@ phases:
       - "rm terraform.zip"
   build:
     commands: 
-      - "echo ## Displaying the TFPlan folder structure"
-      - "ls -R ${CODEBUILD_SRC_DIR}/TFPlan" # This will show the folder with the random hash
-      - "TFPLAN_DIR=$(find ${CODEBUILD_SRC_DIR}/TFPlan -type f -name 'tfapply' | xargs dirname)" # Find the directory containing 'tfapply'
-      - "echo Contents of TFPLAN_DIR"
-      - "ls -R ${TFPLAN_DIR}"      
-      - "echo ## Applying Terraform plan from $TFPLAN_DIR"
-      - "terraform apply -input=false $TFPLAN_DIR/tfapply" # Use the correct path dynamically
+      - "echo ## Displaying the entire folder structure"
+      - "ls -R ${CODEBUILD_SRC_DIR}"  # List all files in the source directory to locate the correct path
+      - "TFPLAN_FILE=$(find ${CODEBUILD_SRC_DIR} -type f -name 'tfapply')"  # Find the 'tfapply' file in the entire workspace
+      - "echo ## Applying Terraform plan from $TFPLAN_FILE"
+      - "terraform apply -input=false $TFPLAN_FILE" # Use the correct path dynamically
 
 artifacts:
   files:
