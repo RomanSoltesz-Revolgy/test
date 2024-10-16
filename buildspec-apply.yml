@@ -16,11 +16,12 @@ phases:
       - "rm terraform.zip"
   build:
     commands:
-      - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
+      - "echo Extracting Terraform plan file..."
+      - "unzip -o ${CODEBUILD_SRC_DIR}/TFPlan/* -d ${CODEBUILD_SRC_DIR}/TFPlan/"    
       - "echo Contents of CODEBUILD_SRC_DIR"
       - "ls -R ${CODEBUILD_SRC_DIR}"      
       - "echo ## TERRAFORM APPLY : Starting with the Terraform Apply"
-      - "terraform apply -input=false ${CODEBUILD_SRC_DIR}/TerraformPlan/tfapply"
+      - "terraform apply -input=false ${CODEBUILD_SRC_DIR}/TFPlan/tfapply"
 
 artifacts:
   files:
