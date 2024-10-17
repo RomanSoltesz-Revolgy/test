@@ -1,7 +1,7 @@
 resource "aws_security_group" "security_group_react" {
   name        = "react1-sg"
   description = "allow http port"
-  vpc_id      = "vpc-0e80cba955b082b42"
+  vpc_id      = "vpc-063ab8f97ce19c1ad"
 
   ingress {
     description = "allow http"
