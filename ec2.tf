@@ -1,5 +1,5 @@
 resource "aws_instance" "web" {
-  ami                    = "ami-008bcc0a51a849165" #ubuntu 20
+  ami                    = "ami-08ec94f928cf25a9d"
   instance_type          = "t3.micro"
   key_name               = "react-ec2-key"
   vpc_security_group_ids = [aws_security_group.security_group_react.id]
