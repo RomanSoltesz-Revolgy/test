@@ -26,7 +26,6 @@ echo "Terraform checkov  : ${tfCheckov}"
 echo "Terraform tfsec    : ${tfTfsec}"
 echo "------------------------"
 
-terraform init
 
 # terraform validate
 if (( ${tfValidate} == "Y"))
