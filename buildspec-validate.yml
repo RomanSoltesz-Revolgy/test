@@ -32,8 +32,6 @@ phases:
       - "chmod +x ./tfsec"
       - "mv ./tfsec /usr/local/bin/tfsec"
       - "curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash"
-      - "unzip -o tflint.zip"
-      - "mv tflint /usr/bin/" 
   build:
     commands:
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
