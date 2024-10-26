@@ -9,6 +9,7 @@ env:
     SKIPVALIDATIONFAILURE: "Y"
     ENABLE_TFVALIDATE: "Y"
     ENABLE_TFFORMAT: "Y"
+    ENABLE_TFLINT: "Y"
     ENABLE_TFCHECKOV: "Y"
     ENABLE_TFSEC: "Y"
     TFSEC_VERSION: "v1.28.11"
@@ -39,6 +40,7 @@ phases:
       - "echo ## TERRAFORM INIT : Initialize the Terraform Workspace"
       - "terraform init"
       - "echo ## VALIDATION : Starting ..."
+      - "/bin/bash ${CODEBUILD_SRC_DIR}/${SCRIPT_DIR}/tf_ssp_validation.sh ${SKIPVALIDATIONFAILURE} ${ENABLE_TFVALIDATE} ${ENABLE_TFFORMAT} ${ENABLE_TFLINT} ${ENABLE_TFCHECKOV} ${ENABLE_TFSEC}"      
 artifacts:
   files:
     - '**/*'
