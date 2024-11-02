@@ -29,8 +29,8 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
       - echo Running tflint
       - tflint --init
-      - tflint
+      - tflint .
       - echo Running tfsec
-      - echo tfsec ./
+      - echo tfsec .
       - echo Running checkov
       - checkov --framework terraform -d ./
