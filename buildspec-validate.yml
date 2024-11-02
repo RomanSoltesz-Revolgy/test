@@ -14,9 +14,10 @@ phases:
     commands:
       - echo Installing Terraform    
       - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
-      - unzip -o terraform.zip
-      - mv terraform /bin
-      - rm terraform.zip
+      - rm -f /bin/terraform # Remove any existing Terraform binary to avoid conflicts
+      - mkdir -p tmp_terraform && unzip -o terraform.zip -d tmp_terraform # Unzip to a temporary directory
+      - mv tmp_terraform/terraform /bin # Move binary to /bin
+      - rm -rf tmp_terraform terraform.zip # Clean up temporary files
   build:
     commands:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
