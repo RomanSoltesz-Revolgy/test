@@ -5,21 +5,29 @@ env:
     CODE_SRC_DIR: "."
     TF_VERSION: "1.9.7"
 
+
 phases:
   install:
     runtime-versions:
       python: 3.12
+      golang: 1.21
     commands:
-      - "curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
-      - "unzip -o terraform.zip"
-      - "mv terraform /bin"
-      - "rm terraform.zip"
+      - echo Updating OS 
+      - yum update -y    
+      - echo Installing Terraform    
+      - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
+      - unzip -o terraform.zip
+      - mv terraform /bin
+      - rm terraform.zip
+  pre_build:
+    commands:
   build:
     commands:
-      - "echo ## TERRAFORM INIT : Initializing Terraform"
-      - "terraform init"      
-      - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
-      - "terraform plan -out tfapply"
+      - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
+      - echo Running Terraform init
+      - terraform init
+      - echo Running Terraform Plan
+      - terraform plan -out tfapply
 artifacts:
   files:
     - '**/*'
