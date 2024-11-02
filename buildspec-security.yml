@@ -1,0 +1,36 @@
+version: 0.2
+
+env:
+  variables:
+    CODE_SRC_DIR: "."
+    TFSEC_VERSION: "v1.28.11"
+
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+      golang: 1.21
+    commands:
+      - echo Updating OS 
+      - yum update -y    
+      - echo Installing jq, awscli, pip3, go, tflint, tfsec, checkov
+      - yum install -y jq awscli
+      - pip3 install checkov
+      - yum install -y golang
+      - wget -q -O tfsec https://github.com/aquasecurity/tfsec/releases/download/${TFSEC_VERSION}/tfsec-linux-amd64
+      - chmod +x ./tfsec
+      - mv ./tfsec /usr/local/bin/tfsec
+      - curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+  pre_build:
+    commands:
+  build:
+    commands:
+      - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
+      - echo Running tflint
+      - tflint --init
+      - tflint
+      - echo Running tfsec
+      - echo tfsec ./
+      - echo Running checkov
+      - checkov --framework terraform -d ./
