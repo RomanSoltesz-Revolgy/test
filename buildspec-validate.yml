@@ -21,6 +21,8 @@ phases:
   build:
     commands:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
+      - pwd
+      - ls -lah
       - echo Running Terraform init
       - terraform init
       - echo Formatting Terraform code
