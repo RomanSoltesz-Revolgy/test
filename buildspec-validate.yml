@@ -3,42 +3,25 @@ version: 0.2
 env:
   variables:
     CODE_SRC_DIR: "."
-    SCRIPT_DIR: "./scripts"
     TF_VERSION: "1.9.7"
-    ENVIRONMENT: "dev"
-    SKIPVALIDATIONFAILURE: "Y"
-    ENABLE_TFVALIDATE: "Y"
-    ENABLE_TFFORMAT: "Y"
-    ENABLE_TFLINT: "Y"
-    ENABLE_TFCHECKOV: "Y"
-    ENABLE_TFSEC: "Y"
-    TFSEC_VERSION: "v1.28.11"
+
 
 phases:
   install:
-    runtime-versions:
-      python: 3.12
-      golang: 1.21
     commands:
-      - "curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
-      - "unzip -o terraform.zip"
-      - "mv terraform /bin"
-      - "rm terraform.zip"
-      - "yum update -y"
-      - "yum install -y jq awscli"
-      - "pip3 install checkov"
-      - "yum install -y golang"
-      - "wget -q -O tfsec https://github.com/aquasecurity/tfsec/releases/download/${TFSEC_VERSION}/tfsec-linux-amd64"
-      - "chmod +x ./tfsec"
-      - "mv ./tfsec /usr/local/bin/tfsec"
-      - "curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash"
+      - echo Installing Terraform    
+      - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
+      - unzip -o terraform.zip
+      - mv terraform /bin
+      - rm terraform.zip
+  pre_build:
+    commands:
   build:
     commands:
-      - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
-      - "echo ## TERRAFORM INIT : Initialize the Terraform Workspace"
-      - "terraform init"
-      - "echo ## VALIDATION : Starting ..."
-      - "/bin/bash ${CODEBUILD_SRC_DIR}/${SCRIPT_DIR}/tf_ssp_validation.sh ${SKIPVALIDATIONFAILURE} ${ENABLE_TFVALIDATE} ${ENABLE_TFFORMAT} ${ENABLE_TFLINT} ${ENABLE_TFCHECKOV} ${ENABLE_TFSEC}"      
-artifacts:
-  files:
-    - '**/*'
+      - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
+      - echo Running Terraform init
+      - terraform init
+      - echo Formatting Terraform code
+      - terraform fmt -recursive
+      - echo Validating Terraform code
+      - terraform validate
