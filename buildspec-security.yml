@@ -32,7 +32,7 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
       - echo Running tflint
       - tflint --init
-      - tflint --chdir=./terraform/ --recursive
+      - tflint --chdir=terraform --recursive
       - echo Running tfsec
       - tfsec . -m MEDIUM
       - echo Running checkov
