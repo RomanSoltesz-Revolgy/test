@@ -22,6 +22,9 @@ phases:
       - chmod +x ./tfsec
       - mv ./tfsec /usr/local/bin/tfsec
       - curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
+      - echo Copying .tflint.hcl configuration file
+      - cp .tflint.hcl ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/
   pre_build:
     commands:
   build:
@@ -29,8 +32,8 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
       - echo Running tflint
       - tflint --init
-      - tflint --chdir=./terraform/dev/
+      - tflint --chdir=./terraform/ --recursive
       - echo Running tfsec
-      - echo tfsec .
+      - tfsec . -m MEDIUM
       - echo Running checkov
       - checkov --framework terraform -d ./
