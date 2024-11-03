@@ -31,7 +31,7 @@ phases:
     commands:
       - echo Running tflint
       - tflint --init
-      - tflint --chdir=terraform/dev --recursive
+      - tflint --chdir=./terraform --recursive
       - echo Running tfsec
       - tfsec . -m MEDIUM
       - echo Running checkov
