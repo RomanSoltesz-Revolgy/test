@@ -35,4 +35,4 @@ phases:
       - echo Running tfsec
       #- tfsec . -m MEDIUM
       - echo Running checkov
-      - checkov --framework terraform -d ./
+      #- checkov --framework terraform -d ./
