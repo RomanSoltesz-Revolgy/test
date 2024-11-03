@@ -29,7 +29,6 @@ phases:
     commands:
   build:
     commands:
-      - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
       - echo Running tflint
       - tflint --init
       - tflint --chdir=terraform --recursive
