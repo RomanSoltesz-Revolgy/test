@@ -15,14 +15,12 @@ phases:
       - mkdir -p tmp_terraform && unzip -o terraform.zip -d tmp_terraform # Unzip to a temporary directory
       - mv tmp_terraform/terraform /bin # Move binary to /bin
       - rm -rf tmp_terraform terraform.zip # Clean up temporary files
-  pre_build:
-    commands:
-      - echo Switching to the folder with Terraform configuration
-      - cd terraform/dev  # Navigate to the directory with Terraform files
   build:
     commands:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
       - ls -lahR
+      - echo Switching to the folder with Terraform configuration
+      - cd terraform/dev  # Navigate to the directory with Terraform files
       - echo Running Terraform init
       - terraform init
       - echo Running Terraform Plan
