@@ -8,17 +8,13 @@ env:
 
 phases:
   install:
-    runtime-versions:
-      python: 3.12
-      golang: 1.21
     commands:
-      #- echo Updating OS 
-      #- yum update -y    
       - echo Installing Terraform    
       - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
-      - unzip -o terraform.zip
-      - mv terraform /bin
-      - rm terraform.zip
+      - rm -f /bin/terraform # Remove any existing Terraform binary to avoid conflicts
+      - mkdir -p tmp_terraform && unzip -o terraform.zip -d tmp_terraform # Unzip to a temporary directory
+      - mv tmp_terraform/terraform /bin # Move binary to /bin
+      - rm -rf tmp_terraform terraform.zip # Clean up temporary files
   pre_build:
     commands:
   build:
