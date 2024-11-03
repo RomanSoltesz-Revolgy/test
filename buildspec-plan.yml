@@ -20,6 +20,7 @@ phases:
   build:
     commands:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
+      - ls -lahR
       - echo Running Terraform init
       - terraform init
       - echo Running Terraform Plan
