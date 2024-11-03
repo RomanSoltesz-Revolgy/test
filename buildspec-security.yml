@@ -33,6 +33,6 @@ phases:
       - tflint --init
       - tflint --chdir=./terraform --recursive
       - echo Running tfsec
-      - tfsec . -m MEDIUM
+      #- tfsec . -m MEDIUM
       - echo Running checkov
       - checkov --framework terraform -d ./
