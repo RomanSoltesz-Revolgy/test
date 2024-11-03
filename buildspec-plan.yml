@@ -17,6 +17,8 @@ phases:
       - rm -rf tmp_terraform terraform.zip # Clean up temporary files
   pre_build:
     commands:
+      - echo Pre-build commands
+      - cd terraform/dev  # Navigate to the directory with Terraform files
   build:
     commands:
       - cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}
