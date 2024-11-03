@@ -13,11 +13,11 @@ phases:
       golang: 1.21
     commands:
       - echo Updating OS 
-      - yum update -y    
+      - yum update -y --quiet
       - echo Installing jq, awscli, pip3, go, tflint, tfsec, checkov
-      - yum install -y jq awscli
-      - pip3 install checkov
-      - yum install -y golang
+      - yum install -y jq awscli --quiet
+      - pip3 install checkov --quiet
+      - yum install -y golang --quiet
       - wget -q -O tfsec https://github.com/aquasecurity/tfsec/releases/download/${TFSEC_VERSION}/tfsec-linux-amd64
       - chmod +x ./tfsec
       - mv ./tfsec /usr/local/bin/tfsec
